@@ -7,4 +7,5 @@
     <string name="e_mail">e-mail</string>
     <string name="password">Password</string>
     <string name="repit_rassword">Repit Rassword</string>
+    <string name="email_pass_empty">E-mail or password can\'t be empty</string>
 </resources>

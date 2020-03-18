@@ -21,13 +21,18 @@ class LoginActivity : AppCompatActivity() {
 
     fun setListeners() {
         btnLogin.setOnClickListener({
-            val loginInfo = LoginInfo(txtLoginPassword.text.toString(), txtLoginEmail.text.toString())
+            var email = txtLoginPassword.text.toString().trim()
+            var pass = txtLoginEmail.text.toString().trim()
+            if (email == "" || pass == "") {
+                Toast.makeText(this, R.string.email_pass_empty, Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            val loginInfo = LoginInfo(email, pass)
             LoginNet.login(loginInfo) { s, e ->
                 runOnUiThread {
                     if (e == null) {
                         Application.tockenId = s
-                    }
-                    else {
+                    } else {
                         Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
                     }
                 }

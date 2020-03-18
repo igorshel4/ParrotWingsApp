@@ -14,12 +14,11 @@ object LoginNet {
 
     private var okHttpClient: OkHttpClient = OkHttpClient()
 
-    fun login(loginInfo: LoginInfo, callback: (String?, e: IOException?) -> Unit) {
+    fun login(loginInfo: LoginInfo, callback: (String?, e: Exception?) -> Unit) {
         val mediaType = "application/json; charset=utf-8".toMediaType()
         val jsonStr = Gson().toJson(loginInfo)
         val body = jsonStr.toRequestBody(mediaType)
         val urlStr = Constants.BASE_URL + "/sessions/create"
-        println("Url: $urlStr")
         val request: Request = Request.Builder().url(urlStr).post(body).build()
         okHttpClient.newCall(request).enqueue(object: Callback {
             override fun onFailure(call: Call, e: IOException) {
@@ -27,8 +26,13 @@ object LoginNet {
             }
             override fun onResponse(call: Call, response: Response) {
                 val json = response.body?.string()
-                var token = Gson().fromJson(json, Token::class.java)
-                callback(token.tokenId, null)
+                try {
+                    val token = Gson().fromJson(json, Token::class.java)
+                    callback(token.tokenId, null)
+                }
+                catch(e: Exception) {
+                    callback(null, Exception(json))
+                }
             }
         })
     }
