@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Parrot Wings App</string>
+    <string name="LoginPrompt">Enter e-mail and password</string>
+    <string name="registration">Registration</string>
+    <string name="login">Login</string>
+    <string name="name">Name</string>
+    <string name="e_mail">e-mail</string>
+    <string name="password">Password</string>
+    <string name="repit_rassword">Repit Rassword</string>
+</resources>
