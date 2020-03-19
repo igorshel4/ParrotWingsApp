@@ -9,6 +9,7 @@ import com.example.parrotwingsapp.Model.LoginInfo
 import com.example.parrotwingsapp.Net.LoginNet
 import com.example.parrotwingsapp.R
 import com.example.parrotwingsapp.UI.Registration.RegistrationActivity
+import com.example.parrotwingsapp.UI.Transaction.TransactionActivity
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
@@ -21,17 +22,19 @@ class LoginActivity : AppCompatActivity() {
 
     fun setListeners() {
         btnLogin.setOnClickListener({
-            var email = txtLoginPassword.text.toString().trim()
-            var pass = txtLoginEmail.text.toString().trim()
+            var email = txtLoginEmail.text.toString().trim()
+            var pass = txtLoginPassword.text.toString().trim()
             if (email == "" || pass == "") {
                 Toast.makeText(this, R.string.email_pass_empty, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            val loginInfo = LoginInfo(email, pass)
+            val loginInfo = LoginInfo(pass, email)
             LoginNet.login(loginInfo) { s, e ->
                 runOnUiThread {
                     if (e == null) {
                         Application.tockenId = s
+                        val intent = Intent(this, TransactionActivity::class.java)
+                        startActivity(intent)
                     } else {
                         Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
                     }

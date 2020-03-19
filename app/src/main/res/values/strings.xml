@@ -8,4 +8,10 @@
     <string name="password">Password</string>
     <string name="repit_rassword">Repit Rassword</string>
     <string name="email_pass_empty">E-mail or password can\'t be empty</string>
+    <string name="user_name_empty">User name can\'t be empty</string>
+    <string name="pass_not_equal_rep_pass">Password does not equal to repit password </string>
+    <string name="not_autorize">You don\'t autorized</string>
+    <string name="commit">Commit</string>
+
+
 </resources>
