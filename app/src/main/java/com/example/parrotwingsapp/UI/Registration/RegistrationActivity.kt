@@ -3,6 +3,7 @@ package com.example.parrotwingsapp.UI.Registration
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import com.example.parrotwingsapp.Application
 import com.example.parrotwingsapp.Model.RegistrationInfo
@@ -37,14 +38,27 @@ class RegistrationActivity : AppCompatActivity() {
                 Toast.makeText(this, R.string.pass_not_equal_rep_pass, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+            progressBar.visibility = View.VISIBLE
             val registrationInfo = RegistrationInfo(txtUserName.text.toString(), txtRegRassword.text.toString(), txtRegEmail.text.toString())
             RegistrationNet.register(registrationInfo) { s, e ->
                 runOnUiThread {
                     if (e == null) {
                         Application.tockenId = s
-                        val intent = Intent(this, TransactionActivity::class.java)
-                        startActivity(intent)                    }
-                    else {
+                        ProfileNet.getProfile {profile, error->
+                            runOnUiThread {
+                                progressBar.visibility = View.INVISIBLE
+                                if (error == null) {
+                                    Application.profile = profile
+                                    val intent = Intent(this, TransactionActivity::class.java)
+                                    startActivity(intent)
+
+                                } else {
+                                    Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
+                    } else {
+                        progressBar.visibility = View.INVISIBLE
                         Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
                     }
                 }

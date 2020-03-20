@@ -33,6 +33,7 @@ object UserNet {
 
             override fun onResponse(call: Call, response: Response) {
                 val json = response.body?.string()
+//                println("json: $json")
                 val gson = Gson()
                 val sType = object : TypeToken<List<User>>() {}.type
                 try {

@@ -2,14 +2,15 @@ package com.example.parrotwingsapp.Net
 
 import com.example.parrotwingsapp.Application
 import com.example.parrotwingsapp.Constants
-import com.example.parrotwingsapp.Model.Token
 import com.example.parrotwingsapp.Model.Transaction
 import com.example.parrotwingsapp.Model.TransactionInfo
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
 import java.io.IOException
 
 object TransactionNet {
@@ -30,7 +31,8 @@ object TransactionNet {
             override fun onResponse(call: Call, response: Response) {
                 val json = response.body?.string()
                 try {
-                    val transaction = Gson().fromJson(json, Transaction::class.java)
+                    val transactionJson = (JSONObject(json).getJSONObject("trans_token")).toString()
+                    val transaction = Gson().fromJson<Transaction>(transactionJson, Transaction::class.java)
                     callback(transaction, null)
                 }
                 catch(e: Exception) {
@@ -54,14 +56,19 @@ object TransactionNet {
             }
             override fun onResponse(call: Call, response: Response) {
                 val json = response.body?.string()
-                val gson = Gson()
-                val sType = object : TypeToken<List<Transaction>>() { }.type
                 try {
-                    val transactionList = gson.fromJson<List<Transaction>>(json, sType)
+                    val transactionJson = (JSONObject(json).getJSONArray("trans_token")).toString()
+                   println("transactionJson: $transactionJson")
+                    var gson = Gson()
+//                    val gson = GsonBuilder().setDateFormat("m/d/yyyy, h:mm:ss AM").create()
+                    val sType = object : TypeToken<List<Transaction>>() { }.type
+                    val transactionList = gson.fromJson<List<Transaction>>(transactionJson, sType)
+                    println("transactionList: $transactionList")
+//                    callback(null, Exception("Test"))
                     callback(transactionList, null)
                 }
                 catch(e: Exception) {
-                    callback(null, Exception(json))
+                    callback(null, e)
                 }
             }
         })
