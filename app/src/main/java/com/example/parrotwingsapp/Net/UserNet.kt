@@ -17,14 +17,13 @@ object UserNet {
 
     fun getUsers(userInfo: UserInfo, callback: (List<User>?, e: Exception?) -> Unit) {
         if (Application.tockenId == null) {
-            callback(null, Exception("You don\'t autorized"))
+            callback(null, Exception(Constants.NOT_AUTORIZED))
             return
         }
-        val mediaType = "application/json; charset=utf-8".toMediaType()
+        val mediaType = Constants.MEDIA_TYPE.toMediaType()
         val jsonStr = Gson().toJson(userInfo)
         val body = jsonStr.toRequestBody(mediaType)
-        val urlStr = Constants.BASE_URL + "/api/protected/users/list"
-        val request: Request = Request.Builder().url(urlStr).addHeader("Authorization", "Bearer " + Application.tockenId!!).post(body).build()
+        val request: Request = Request.Builder().url(Constants.USER_URL).addHeader(Constants.AUTORIZATION, Constants.BEARER + Application.tockenId!!).post(body).build()
         okHttpClient.newCall(request).enqueue(object: Callback {
 
             override fun onFailure(call: Call, e: IOException) {
@@ -33,7 +32,6 @@ object UserNet {
 
             override fun onResponse(call: Call, response: Response) {
                 val json = response.body?.string()
-//                println("json: $json")
                 val gson = Gson()
                 val sType = object : TypeToken<List<User>>() {}.type
                 try {

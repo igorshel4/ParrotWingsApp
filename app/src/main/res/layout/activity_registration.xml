@@ -6,71 +6,103 @@
     android:layout_height="match_parent"
     tools:context=".UI.Registration.RegistrationActivity">
 
-    <LinearLayout
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/txtUserName"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="100dp"
-            android:layout_marginEnd="32dp"
-            android:ems="10"
-            android:hint="@string/name"
-            android:text="igorshel4"
-            android:inputType="textEmailAddress" />
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/txtRegEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="32dp"
-            android:ems="10"
-            android:hint="@string/e_mail"
-            android:text="igor_shel@yahoo.com"
-            android:inputType="textEmailAddress" />
 
-        <EditText
-            android:id="@+id/txtRegRassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="32dp"
-            android:ems="10"
-            android:hint="@string/password"
-            android:text="Paritet1!"
-            android:inputType="textPassword" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/txtRepitRassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="32dp"
-            android:ems="10"
-            android:hint="@string/repit_rassword"
-            android:text="Paritet1!"
-            android:inputType="textPassword" />
+                <EditText
+                    android:id="@+id/txtUserName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="100dp"
+                    android:layout_marginEnd="32dp"
+                    android:ems="10"
+                    android:hint="@string/name"
+                    android:inputType="textEmailAddress"/>
 
-        <Button
-            android:id="@+id/btnPrfRegistr"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="100dp"
-            android:text="@string/registration" />
+                <EditText
+                    android:id="@+id/txtRegEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:ems="10"
+                    android:hint="@string/e_mail"
+                    android:inputType="textEmailAddress"/>
 
-    </LinearLayout>
+                <EditText
+                    android:id="@+id/txtRegRassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:ems="10"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"/>
+
+                <EditText
+                    android:id="@+id/txtRepitRassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:ems="10"
+                    android:hint="@string/repit_rassword"
+                    android:inputType="textPassword"/>
+
+                <Button
+                    android:id="@+id/btnPrfRegistr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="100dp"
+                    android:text="@string/registration" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

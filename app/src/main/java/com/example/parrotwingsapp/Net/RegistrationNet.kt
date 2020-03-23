@@ -14,12 +14,10 @@ object RegistrationNet {
     private var okHttpClient: OkHttpClient = OkHttpClient()
 
     fun register(registrationInfo: RegistrationInfo, callback: (String?, e: Exception?) -> Unit) {
-        val mediaType = "application/json; charset=utf-8".toMediaType()
+        val mediaType = Constants.MEDIA_TYPE.toMediaType()
         val jsonStr = Gson().toJson(registrationInfo)
         val body = jsonStr.toRequestBody(mediaType)
-        val urlStr = Constants.BASE_URL + "/users"
-        println("Url: $urlStr")
-        val request: Request = Request.Builder().url(urlStr).post(body).build()
+        val request: Request = Request.Builder().url(Constants.REGISTRATION_URL).post(body).build()
         okHttpClient.newCall(request).enqueue(object: Callback {
             override fun onFailure(call: Call, e: IOException) {
                 callback(null, e)

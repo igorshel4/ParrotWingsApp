@@ -68,21 +68,23 @@ class TransactionActivity : AppCompatActivity() {
                 if (s.length != 1) return
                 progressBar.visibility = View.VISIBLE
                 UserNet.getUsers(UserInfo(s.toString()), {list, error ->
-                    if (error == null) {
-                        runOnUiThread {
-                            progressBar.visibility = View.INVISIBLE
+                    runOnUiThread {
+                        progressBar.visibility = View.INVISIBLE
+                        if (error == null) {
                             val users = list?.map { u -> u.name }?.toMutableList()
-                            println("users: $users")
-                            val adapter = ArrayAdapter<String>(
-                                this@TransactionActivity,
-                                android.R.layout.simple_dropdown_item_1line,
-                                users!!
-                            )
-                            txtUsers.setAdapter(adapter)
-                            txtUsers.threshold = 2
+                            if (users != null) {
+                                val adapter = ArrayAdapter<String>(
+                                    this@TransactionActivity,
+                                    android.R.layout.simple_dropdown_item_1line,
+                                    users
+                                )
+                                txtUsers.setAdapter(adapter)
+                                txtUsers.threshold = 2
+                            }
+
+                        } else {
+                            println("Error: $error.message")
                         }
-                    } else {
-                        println("Error: $error.message")
                     }
                 })
 
@@ -91,10 +93,24 @@ class TransactionActivity : AppCompatActivity() {
 
 
         btnCommit.setOnClickListener {
-            val name = txtUsers.text.toString()
-            val amoun = txtSum.text.toString().toInt()
+            val name = txtUsers.text.toString().trim()
+            val amount = txtSum.text.toString().trim().toIntOrNull()
+            val balance = Application.profile?.balance
+            if (balance == null) {
+                return@setOnClickListener
+            }
+            if (amount == null
+                || amount <= 0
+                || amount > balance) {
+                Toast.makeText(this, R.string.incorrect_amount, Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+            if (name == "") {
+                Toast.makeText(this, R.string.empty_name, Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
             progressBar.visibility = View.VISIBLE
-            TransactionNet.createTransaction(TransactionInfo(name, amoun)){transaction, error ->
+            TransactionNet.createTransaction(TransactionInfo(name, amount)){transaction, error ->
                 runOnUiThread {
                     progressBar.visibility = View.INVISIBLE
                     if (error == null) {

@@ -14,6 +14,7 @@ import com.example.parrotwingsapp.UI.Registration.RegistrationActivity
 import com.example.parrotwingsapp.UI.Transaction.TransactionActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_login.progressBar
+import java.text.SimpleDateFormat
 
 class LoginActivity : AppCompatActivity() {
 
@@ -28,7 +29,7 @@ class LoginActivity : AppCompatActivity() {
             var email = txtLoginEmail.text.toString().trim()
             var pass = txtLoginPassword.text.toString().trim()
             if (email == "" || pass == "") {
-                Toast.makeText(this, R.string.email_pass_empty, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.email_pass_empty, Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
             progressBar.visibility = View.VISIBLE
@@ -46,13 +47,13 @@ class LoginActivity : AppCompatActivity() {
                                     startActivity(intent)
 
                                 } else {
-                                    Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(this, error.message, Toast.LENGTH_LONG).show()
                                 }
                             }
                         }
                     } else {
                         progressBar.visibility = View.INVISIBLE
-                        Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
                     }
                 }
             }

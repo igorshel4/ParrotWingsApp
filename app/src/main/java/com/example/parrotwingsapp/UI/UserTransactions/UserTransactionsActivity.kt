@@ -15,6 +15,7 @@ import com.example.parrotwingsapp.UI.Login.LoginActivity
 import com.example.parrotwingsapp.UI.Transaction.TransactionActivity
 import kotlinx.android.synthetic.main.activity_user_transactions.*
 import kotlinx.android.synthetic.main.activity_user_transactions.toolbar
+import java.text.SimpleDateFormat
 
 class UserTransactionsActivity : AppCompatActivity() {
 
@@ -28,11 +29,14 @@ class UserTransactionsActivity : AppCompatActivity() {
 
         progressBar.visibility = View.VISIBLE
         TransactionNet.getTransactions() { l, e ->
+            if (l == null) {
+                return@getTransactions
+            }
             runOnUiThread {
                 progressBar.visibility = View.INVISIBLE
                 if (e == null) {
+                    var transactionsAdapor = UserTransactionAdapter(l.sortedWith(compareBy { SimpleDateFormat("m/dd/yyyy, h:mm:ss a").parse(it.date) }).reversed())
 
-                    var transactionsAdapor = UserTransactionAdapter(l!!, this)
                     val layoutManager = LinearLayoutManager(this)
                     rvTransacions.layoutManager = layoutManager
                     rvTransacions.setHasFixedSize(true)

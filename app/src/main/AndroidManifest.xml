@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UI.Transaction.TransactionActivity"></activity>
+        <activity android:name=".UI.UserTransactions.UserTransactionsActivity"></activity>
+        <activity android:name=".UI.Transaction.TransactionActivity" />
         <activity android:name=".UI.Registration.RegistrationActivity" />
         <activity android:name=".UI.Login.LoginActivity">
             <intent-filter>

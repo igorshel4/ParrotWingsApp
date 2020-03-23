@@ -2,6 +2,7 @@ package com.example.parrotwingsapp.Net
 
 import com.example.parrotwingsapp.Application
 import com.example.parrotwingsapp.Constants
+import com.example.parrotwingsapp.Constants.TRANSACTION_URL
 import com.example.parrotwingsapp.Model.Transaction
 import com.example.parrotwingsapp.Model.TransactionInfo
 import com.google.gson.Gson
@@ -18,12 +19,14 @@ object TransactionNet {
     private val okHttpClient: OkHttpClient = OkHttpClient()
 
     fun createTransaction(transactionInfo: TransactionInfo, callback: (Transaction?, e: Exception?) -> Unit) {
-        val mediaType = "application/json; charset=utf-8".toMediaType()
+        if (Application.tockenId == null) {
+            callback(null, Exception(Constants.NOT_AUTORIZED))
+            return
+        }
+        val mediaType = Constants.MEDIA_TYPE.toMediaType()
         val jsonStr = Gson().toJson(transactionInfo)
-        println("body $jsonStr")
         val body = jsonStr.toRequestBody(mediaType)
-        val urlStr = Constants.BASE_URL + "/api/protected/transactions"
-        val request: Request = Request.Builder().url(urlStr).post(body).addHeader("Authorization", "Bearer " + Application.tockenId!!).build()
+        val request: Request = Request.Builder().url(TRANSACTION_URL).post(body).addHeader(Constants.AUTORIZATION, Constants.BEARER + Application.tockenId!!).build()
         okHttpClient.newCall(request).enqueue(object: Callback {
             override fun onFailure(call: Call, e: IOException) {
                 callback(null, e)
@@ -45,11 +48,10 @@ object TransactionNet {
 
     fun getTransactions(callback: (List<Transaction>?, e: Exception?) -> Unit) {
         if (Application.tockenId == null) {
-            callback(null, Exception("You don\'t autorized"))
+            callback(null, Exception(Constants.NOT_AUTORIZED))
             return
         }
-        val urlStr = Constants.BASE_URL + "/api/protected/transactions"
-        val request: Request = Request.Builder().url(urlStr).addHeader("Authorization", "Bearer " + Application.tockenId!!).build()
+        val request: Request = Request.Builder().url(TRANSACTION_URL).addHeader(Constants.AUTORIZATION, Constants.BEARER + Application.tockenId!!).build()
         okHttpClient.newCall(request).enqueue(object: Callback {
             override fun onFailure(call: Call, e: IOException) {
                 callback(null, e)
@@ -58,13 +60,10 @@ object TransactionNet {
                 val json = response.body?.string()
                 try {
                     val transactionJson = (JSONObject(json).getJSONArray("trans_token")).toString()
-                   println("transactionJson: $transactionJson")
                     var gson = Gson()
-//                    val gson = GsonBuilder().setDateFormat("m/d/yyyy, h:mm:ss AM").create()
                     val sType = object : TypeToken<List<Transaction>>() { }.type
                     val transactionList = gson.fromJson<List<Transaction>>(transactionJson, sType)
                     println("transactionList: $transactionList")
-//                    callback(null, Exception("Test"))
                     callback(transactionList, null)
                 }
                 catch(e: Exception) {

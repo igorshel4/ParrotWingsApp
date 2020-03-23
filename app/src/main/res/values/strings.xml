@@ -12,6 +12,10 @@
     <string name="pass_not_equal_rep_pass">Password does not equal to repit password </string>
     <string name="not_autorize">You don\'t autorized</string>
     <string name="commit">Commit</string>
+    <string name="incorrect_amount">Incorrect Ammount</string>
+    <string name="empty_name">Recipient name can\'t be empty</string>
+    <string name="recipient">Recipient</string>
+    <string name="amount">Amount</string>
 
 
 </resources>

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.parrotwingsapp.Model.Transaction
 import com.example.parrotwingsapp.R
 
-class UserTransactionAdapter(var transactions: List<Transaction>, parent: Context): RecyclerView.Adapter<UserTransactionAdapter.TransactionViewHolder>() {
+class UserTransactionAdapter(var transactions: List<Transaction>): RecyclerView.Adapter<UserTransactionAdapter.TransactionViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
 
@@ -17,9 +17,7 @@ class UserTransactionAdapter(var transactions: List<Transaction>, parent: Contex
         val layoutIdForListNumber = R.layout.user_transaction
         val inflator = LayoutInflater.from(context)
         val view = inflator.inflate(layoutIdForListNumber, parent, false)
-        val viewHolder = TransactionViewHolder(view)
-
-        return viewHolder
+        return TransactionViewHolder(view)
     }
 
     override fun getItemCount(): Int {

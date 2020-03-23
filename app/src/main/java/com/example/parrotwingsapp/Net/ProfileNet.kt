@@ -14,12 +14,10 @@ object ProfileNet {
 
     fun getProfile (callback: (Profile?, e: Exception?) -> Unit) {
         if (Application.tockenId == null) {
-//            callback(null, Exception(R.string.not_autorize))
-            callback(null, Exception("You don\\'t autorized"))
+            callback(null, Exception(Constants.NOT_AUTORIZED))
             return
         }
-        val urlStr = Constants.BASE_URL + "/api/protected/user-info"
-        val request: Request = Request.Builder().url(urlStr).addHeader("Authorization", "Bearer "+Application.tockenId!!) .build()
+        val request: Request = Request.Builder().url(Constants.PROFILE_URL).addHeader(Constants.AUTORIZATION, Constants.BEARER + Application.tockenId!!).build()
         okHttpClient.newCall(request).enqueue(object: Callback {
             override fun onFailure(call: Call, e: IOException) {
                 callback(null, e)
